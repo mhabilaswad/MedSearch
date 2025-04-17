@@ -33,10 +33,10 @@ const socialLinks: socialLinks[] = [
 
 const footer = () => {
     return (
-        <div className="mx-auto max-w-2xl sm:pt-24 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="my-12 grid grid-cols-1 gap-y-10 sm:grid-cols-6 lg:grid-cols-12">
                 {/* COLUMN-1 */}
-                <div className='sm:col-span-6 lg:col-span-5'>
+                <div className='sm:col-span-6 lg:col-span-7'>
                     <div className="flex flex-shrink-0 items-center border-right">
                         {/* Logo */}
                         <Image src="/assets/logo/logo.png" alt="logo" width={214} height={66} />
@@ -54,18 +54,17 @@ const footer = () => {
                 <div className="lg:col-span-5 sm:col-span-6 flex justify-end items-start gap-4">
                     <div className="flex flex-col items-end space-y-4">
                         {/* Email */}
-                        <p className="text-darkgray text-base font-normal text-right">Email: info@company.com</p>
+                        <p className="text-darkgray text-base font-normal text-right">medsearch@gmail.com</p>
                         {/* Instagram */}
-                        <Link href="https://www.instagram.com/habilaswad/" target="_blank" className="flex items-center gap-2">
+                        <Link href="https://www.instagram.com/hmif.fmipausk/" target="_blank" className="flex items-center gap-2">
                             <Image src="/assets/footer/insta.svg" alt="Instagram" width={14} height={14} />
                             <p className="text-darkgray text-base font-normal text-right">@MedSearch</p>
                         </Link>
 
                         {/* Phone Number */}
-                        <p className="text-darkgray text-base font-normal text-right">Phone: +62 123 456 789</p>
+                        <p className="text-darkgray text-base font-normal text-right">+62 123 456 789</p>
                     </div>
                 </div>
-
             </div>
 
             {/* All Rights Reserved */}
@@ -82,3 +81,4 @@ const footer = () => {
 }
 
 export default footer;
+
