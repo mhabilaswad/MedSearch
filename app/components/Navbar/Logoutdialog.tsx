@@ -21,16 +21,17 @@ const LogoutDialog = () => {
 
   return (
     <>
-      <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:pr-0">
-        {status === 'authenticated' && (
-          <button
-            className="text-red-600 text-lg font-medium ml-9 py-5 px-16 transition duration-150 ease-in-out rounded-full hover:text-red hover:bg-red-600"
-            onClick={openModal}
-          >
-            Logout
-          </button>
-        )}
-      </div>
+<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:pr-0">
+  {status === 'authenticated' && (
+    <button
+      className="bg-[#FF0000] text-white text-lg font-medium ml-9 py-2 px-6 rounded-full transition duration-150 ease-in-out hover:opacity-90"
+      onClick={openModal}
+    >
+      Logout
+    </button>
+  )}
+</div>
+
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>

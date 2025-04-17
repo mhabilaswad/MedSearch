@@ -11,8 +11,16 @@ export default function Home() {
     <main>
       <Banner />
       <Companies />
-      <Courses />
-      <Mentor />
+      
+      
+      <section id="tentang" className="scroll-mt-24">
+        <Courses />
+      </section>
+
+      <section id="hubungi" className="scroll-mt-24">
+        <Mentor />  
+      </section>
+
     </main>
   )
 }
