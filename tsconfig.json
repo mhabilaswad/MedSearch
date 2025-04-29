@@ -23,7 +23,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/obat-populer/route.js", "app/api/obat/[nama_obat]/route.ts", "app/api/obat-detail/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/obat-populer/route.js", "app/api/obat/[nama_obat]/route.ts", "app/api/obat-detail/route.js", "app/api/simpan/route.js"],
   "exclude": ["node_modules"],
   "types": ["next-auth"]
 }

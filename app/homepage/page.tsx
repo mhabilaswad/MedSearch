@@ -20,17 +20,38 @@ const Homepage = () => {
   }, [session, status, router]);
 
   const [obatPopuler, setObatPopuler] = useState<Obat[]>([]);
+  const [obatDisimpan, setObatDisimpan] = useState<Obat[]>([]);
 
   useEffect(() => {
-    const fetchObat = async () => {
-      const res = await fetch('/api/obat-populer');
-      const json = await res.json();
-      console.log("DATA OBAT POPULER:", json);
-      setObatPopuler(json.data || []);
-    };
+    if (session?.user?.email) {
+      const fetchObat = async () => {
+        // Fetch obat populer
+        const res = await fetch('/api/obat-populer');
+        const json = await res.json();
+        console.log("DATA OBAT POPULER:", json);
+        setObatPopuler(json.data || []);
+      };
 
-    fetchObat();
-  }, []);
+      const fetchObatDisimpan = async () => {
+        try {
+          const res = await fetch(`/api/obat-disimpan?email=${session?.user?.email}`);
+          const json = await res.json();
+
+          if (res.ok) {
+            setObatDisimpan(json.data || []);
+          } else {
+            console.error('Gagal mengambil obat yang disimpan');
+          }
+        } catch (error) {
+          console.error('Terjadi kesalahan:', error);
+        }
+      };
+
+
+      fetchObat();
+      fetchObatDisimpan();
+    }
+  }, [session]);
 
   type Obat = {
     _id: string;
@@ -45,16 +66,27 @@ const Homepage = () => {
     }
   };
 
+  const handleDeleteObat = async (id: string) => {
+    if (!confirm('Apakah kamu yakin ingin menghapus obat ini?')) return;
+
+    const res = await fetch(`/api/obat-disimpan/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      setObatDisimpan(obatDisimpan.filter((obat) => obat._id !== id));
+    }
+  };
+
   return (
     <ProtectedPage>
       <div className="space-y-16 px-4 py-8">
-  
         {/* 1. Hero Section */}
         <section className="text-center space-y-6">
           <h1 className="text-3xl md:text-5xl font-bold text-gray-900">
             Temukan Informasi Obat <br />dengan Mudah
           </h1>
-  
+
           {/* Tombol Toggle */}
           <div className="flex justify-center items-center space-x-4">
             <button
@@ -66,9 +98,9 @@ const Homepage = () => {
             >
               Gejala
             </button>
-  
+
             <span className="text-gray-400 text-xl">|</span>
-  
+
             <button
               onClick={() => setSelected('penyakit')}
               className={`px-6 py-2 rounded-full font-normal transition duration-200 ${selected === 'penyakit'
@@ -79,7 +111,7 @@ const Homepage = () => {
               Penyakit
             </button>
           </div>
-  
+
           {/* Search Box */}
           <div className="max-w-md mx-auto">
             <form onSubmit={handleSearch}>
@@ -93,7 +125,7 @@ const Homepage = () => {
             </form>
           </div>
         </section>
-  
+
         {/* 2. Daftar Obat Populer */}
         <section>
           <div className="container mx-auto max-w-[85%] px-7 py-7 border border-gray-300 rounded-lg">
@@ -117,7 +149,7 @@ const Homepage = () => {
             </div>
           </div>
         </section>
-  
+
         {/* 3. Riwayat Pencarian Obat */}
         <section>
           <div className="container mx-auto max-w-[85%] px-8 py-8 border border-gray-300 rounded-lg">
@@ -135,24 +167,41 @@ const Homepage = () => {
             </div>
           </div>
         </section>
-  
+
         {/* 4. Obat yang Kamu Simpan */}
         <section>
-          <div className="container mx-auto max-w-[85%] px-8 py-8 border border-gray-300 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Obat yang Kamu Simpan</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-white border rounded-lg p-4 text-center shadow">
-                  <div className="h-32 bg-gray-200 rounded mb-2" />
-                  <p className="font-medium">Nama Obat Disimpan {i + 1}</p>
-                  <button className="mt-2 px-4 py-1 text-sm bg-[#FF0000] text-white rounded hover:bg-red-600">
-                    Hapus
-                  </button>
-                </div>
-              ))}
-            </div>
+          <div className="container mx-auto max-w-[85%] px-7 py-7 border border-gray-300 rounded-lg">
+            <h2 className="text-xl font-semibold mb-5">Obat yang Kamu Simpan</h2>
+            {obatDisimpan.length > 0 ? (
+              <div className="flex overflow-x-auto space-x-0 pb-6 gap-8">
+                {obatDisimpan.map((obat) => (
+                  <div
+                    key={obat._id}
+                    className="flex-none w-3/7 md:w-1/4 bg-white border rounded-lg p-4 text-center shadow"
+                  >
+                    <img
+                      src={obat.gambar || '/placeholder.jpg'}
+                      alt={obat.nama_obat}
+                      className="h-32 w-full object-cover rounded mb-2"
+                    />
+                    <p className="font-medium">{obat.nama_obat}</p>
+                    <a
+                      href={`/detail/${encodeURIComponent(obat.nama_obat)}`}
+                      className="inline-block mt-2 px-4 py-1 text-sm bg-[#1C74DB] text-white rounded hover:bg-[#155AA0]"
+                    >
+                      Lihat Detail
+                    </a>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">Belum ada obat yang kamu simpan.</p>
+            )}
           </div>
         </section>
+
+
+
       </div>
     </ProtectedPage>
   );
