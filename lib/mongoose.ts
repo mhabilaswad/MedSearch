@@ -1,27 +1,25 @@
-// lib/mongoose.ts
 import mongoose, { Mongoose } from 'mongoose';
 
 declare global {
-  // hanya saat di development kita perlu ini
+  // Hanya saat di development kita perlu ini
   var mongoose: {
     conn: Mongoose | null;
     promise: Promise<Mongoose> | null;
   };
 }
 
-// url MongoDB
-const MONGODB_URI = 'mongodb://127.0.0.1:27017/medsearch_db';
+// URL MongoDB
+const MONGODB_URI = 'mongodb://127.0.0.1:27017/medsearch_db'; // Pastikan ini tidak berubah
 
-// validasi
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI');
 }
 
-// cache koneksi global
+// Cache koneksi global
 let cached = global.mongoose ?? (global.mongoose = { conn: null, promise: null });
 
 async function connectDB(): Promise<Mongoose> {
-  if (cached.conn) return cached.conn;
+  if (cached.conn) return cached.conn; // Jika sudah terkoneksi, langsung kembalikan koneksi
 
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, {
@@ -29,7 +27,7 @@ async function connectDB(): Promise<Mongoose> {
     });
   }
 
-  cached.conn = await cached.promise;
+  cached.conn = await cached.promise; // Simpan koneksi yang sudah dibuka
   return cached.conn;
 }
 
