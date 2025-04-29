@@ -1,9 +1,13 @@
+// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    eslint: {
-      ignoreDuringBuilds: true,
-    },
-    images: { unoptimized: true },
-  };
-  
-  module.exports = nextConfig;
+  webpack: (config) => {
+    config.experiments = {
+      ...config.experiments,
+      topLevelAwait: true,
+    };
+    return config;
+  },
+};
+
+module.exports = nextConfig;

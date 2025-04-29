@@ -44,8 +44,8 @@ const Signin = () => {
     <>
       <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:pr-0">
         <div className='hidden lg:block'>
-          <button type="button" className='text-lg text-Blueviolet font-medium' onClick={openModal}>
-            Log In
+          <button type="button" className='text-lg text-[#1C74DB] font-medium' onClick={openModal}>
+            Login
           </button>
         </div>
       </div>
@@ -163,16 +163,6 @@ const Signin = () => {
                         </div>
                       </form>
                     </div>
-                  </div>
-
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
-                    >
-                      Got it, thanks!
-                    </button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

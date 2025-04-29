@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Validasi input
     if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Please fill all fields.' })
+      return res.status(400).json({ message: 'Tolong isi semua data' })
     }
 
     // Enkripsi password
@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Periksa apakah email sudah terdaftar
       const existingUser = await User.findOne({ email })
       if (existingUser) {
-        return res.status(400).json({ message: 'Email is already registered.' })
+        return res.status(400).json({ message: 'Email sudah terdaftar.' })
       }
 
       // Buat pengguna baru
@@ -42,9 +42,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       })
 
       await newUser.save()
-      res.status(201).json({ message: 'User registered successfully!' })
+      res.status(201).json({ message: 'Registrasi Berhasil!!' })
     } catch (error) {
-      res.status(500).json({ message: 'Server error, try again later.' })
+      res.status(500).json({ message: 'Server error, coba lagi nanti.' })
     }
   } else {
     res.status(405).json({ message: 'Method Not Allowed' })
