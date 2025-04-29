@@ -106,7 +106,19 @@ const SearchingPage = () => {
                                             <p className="text-sm text-gray-500 mt-1">{obat.gejala}</p>
                                         </div>
                                         <Link href={`/detail/${encodeURIComponent(obat.nama_obat)}`} passHref>
-                                            <button className="mt-2 px-4 py-1 text-sm bg-[#1C74DB] text-white rounded hover:bg-[#155AA0]">
+                                            <button
+                                                className="mt-2 px-4 py-1 text-sm bg-[#1C74DB] text-white rounded hover:bg-[#155AA0]"
+                                                onClick={() => {
+                                                    // Menyimpan riwayat obat yang dilihat ke localStorage
+                                                    const riwayat = JSON.parse(localStorage.getItem('riwayatObat') || '[]');
+                                                    riwayat.push({
+                                                        nama_obat: obat.nama_obat,
+                                                        tanggal: new Date().toLocaleString(),
+                                                    });
+                                                    // Mengambil hanya 4 riwayat terbaru
+                                                    localStorage.setItem('riwayatObat', JSON.stringify(riwayat.slice(-4)));
+                                                }}
+                                            >
                                                 Lihat Detail
                                             </button>
                                         </Link>
