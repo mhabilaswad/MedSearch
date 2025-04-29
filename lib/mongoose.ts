@@ -1,7 +1,6 @@
 import mongoose, { Mongoose } from 'mongoose';
 
 declare global {
-  // Hanya saat di development kita perlu ini
   var mongoose: {
     conn: Mongoose | null;
     promise: Promise<Mongoose> | null;
