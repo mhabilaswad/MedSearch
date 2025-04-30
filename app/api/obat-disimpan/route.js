@@ -1,4 +1,4 @@
-import connectDB from '@/lib/mongoose';
+import { connectDB } from '@/lib/mongoose';
 import { NextResponse } from 'next/server';
 import SimpanObat from '@/models/SimpanObat';
 import Obat from '@/models/Obat';
