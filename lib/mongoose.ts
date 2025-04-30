@@ -1,33 +1,29 @@
-import mongoose, { Mongoose } from 'mongoose';
+// lib/mongoose.ts
+import mongoose from 'mongoose';
 
-declare global {
-  var mongoose: {
-    conn: Mongoose | null;
-    promise: Promise<Mongoose> | null;
-  };
-}
+let isConnected = false;
 
-// URL MongoDB
-const MONGODB_URI = 'mongodb://127.0.0.1:27017/medsearch_db'; // Pastikan ini tidak berubah
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI');
-}
-
-// Cache koneksi global
-let cached = global.mongoose ?? (global.mongoose = { conn: null, promise: null });
-
-async function connectDB(): Promise<Mongoose> {
-  if (cached.conn) return cached.conn; // Jika sudah terkoneksi, langsung kembalikan koneksi
-
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {
-      bufferCommands: false,
-    });
+export const connectDB = async () => {
+  if (isConnected) {
+    console.log('=> already connected');
+    return;
   }
 
-  cached.conn = await cached.promise; // Simpan koneksi yang sudah dibuka
-  return cached.conn;
-}
+  if (mongoose.connections.length > 0) {
+    isConnected = mongoose.connections[0].readyState === 1;
 
-export default connectDB;
+    if (isConnected) {
+      console.log('=> use previous connection');
+      return;
+    }
+
+    await mongoose.disconnect();
+  }
+
+  await mongoose.connect(process.env.MONGODB_URI!, {
+    bufferCommands: false,
+  });
+
+  isConnected = true;
+  console.log('=> new connection');
+};
