@@ -3,14 +3,21 @@ import User from '../../../models/User'
 import { NextApiRequest, NextApiResponse } from 'next'
 import mongoose from 'mongoose'
 
-const MONGODB_URI = 'mongodb://localhost:27017/medsearch_db'
-
-// Fungsi untuk menyambung ke MongoDB
 async function connectToDatabase() {
   if (mongoose.connections[0].readyState) {
-    return
+    console.log('✅ MongoDB sudah terkoneksi');
+    return;
   }
-  await mongoose.connect(MONGODB_URI)
+
+  const MONGODB_URI = process.env.MONGODB_URI;
+  if (!MONGODB_URI) throw new Error('❌ MONGODB_URI tidak ditemukan');
+
+  try {
+    await mongoose.connect(MONGODB_URI);
+    console.log('✅ Berhasil konek ke MongoDB');
+  } catch (err) {
+    console.error('❌ Gagal konek MongoDB:', err);
+  }
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
