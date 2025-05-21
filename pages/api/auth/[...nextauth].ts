@@ -24,16 +24,21 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        await connectToDatabase()
-
-        // Cari pengguna berdasarkan email
-        const user = await User.findOne({ email: credentials?.email })
-        if (user && bcrypt.compareSync(credentials?.password, user.password)) {
-          return { id: user._id, email: user.email }
-        } else {
-          return null
+        if (!credentials?.email || !credentials?.password) {
+          // Jika email atau password tidak ada, tolak akses
+          return null;
         }
-      },
+
+        await connectToDatabase();
+
+        const user = await User.findOne({ email: credentials.email });
+        if (user && bcrypt.compareSync(credentials.password, user.password)) {
+          return { id: user._id, email: user.email };
+        } else {
+          return null;
+        }
+      }
+      ,
     }),
   ],
   pages: {
@@ -46,7 +51,7 @@ export default NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
-        token.email = user.email
+        token.email = user.email ?? '';
       }
       return token
     },
