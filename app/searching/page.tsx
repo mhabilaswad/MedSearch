@@ -4,15 +4,22 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
+interface Obat {
+  _id: string;
+  gambar: string;
+  nama_obat: string;
+  gejala: string;
+}
+
 const SearchingPage = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const initialQuery = searchParams?.get('query') ?? '';
     const [searchInput, setSearchInput] = useState(initialQuery);
     const [searchTerm, setSearchTerm] = useState(initialQuery);
-    const [hasil, setHasil] = useState([]);
+    const [hasil, setHasil] = useState<Obat[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             if (searchTerm) {
