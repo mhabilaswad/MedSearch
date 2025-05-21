@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'; // 💡 Tambah ini supaya tidak kena DYNAMIC_SERVER_USAGE
+
 import { connectDB } from '@/lib/mongoose';
 import { NextResponse } from 'next/server';
 import SimpanObat from '@/models/SimpanObat';
