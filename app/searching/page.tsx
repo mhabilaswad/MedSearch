@@ -7,7 +7,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 const SearchingPage = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const initialQuery = searchParams.get('query') || '';
+    const initialQuery = searchParams.get('query') ?? '';
     const [searchInput, setSearchInput] = useState(initialQuery);
     const [searchTerm, setSearchTerm] = useState(initialQuery);
     const [hasil, setHasil] = useState([]);
