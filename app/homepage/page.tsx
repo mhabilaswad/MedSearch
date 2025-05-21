@@ -94,7 +94,7 @@ const Homepage = () => {
             <form onSubmit={handleSearch}>
               <input
                 type="text"
-                placeholder="Cari obat..."
+                placeholder="Cari nama obat atau penyakit..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
